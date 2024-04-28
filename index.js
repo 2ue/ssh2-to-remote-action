@@ -4,7 +4,7 @@ const core = require('@actions/core');
 async function run() {
     const sftp = new SSH2SftpClient();
     const host = core.getInput('host', { required: true });
-    const port = core.getInput('port', { required: true });
+    const port = core.getInput('port') || 22;
     const username = core.getInput('username', { required: true });
     const password = core.getInput('password', { required: true });
     const forceIPv4 = core.getInput('forceIPv4');
