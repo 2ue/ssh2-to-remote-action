@@ -1,4 +1,4 @@
-name: 'SSH2 SFTP Upload'
+name: 'ssh2-to-remote-action'
 description: 'An action to upload a local directory to a remote server via SSH2 SFTP'
 inputs:
   host:
@@ -61,3 +61,6 @@ inputs:
 runs:
   using: 'node20'
   main: 'dist/index.js'
+branding:
+  icon: 'arrow-up-circle'
+  color: 'blue'
