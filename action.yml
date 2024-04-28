@@ -1,0 +1,63 @@
+name: 'SSH2 SFTP Upload'
+description: 'An action to upload a local directory to a remote server via SSH2 SFTP'
+inputs:
+  host:
+    description: 'The remote host to connect'
+    required: true
+  port:
+    description: 'The port to use for the connection'
+    required: true
+  username:
+    description: 'The username for authentication'
+    required: true
+  password:
+    description: 'The password for password-based user authentication'
+    required: true
+  forceIPv4:
+    description: 'Force IPv4 connections'
+    required: false
+  forceIPv6:
+    description: 'Force IPv6 connections'
+    required: false
+  agent:
+    description: 'Path to ssh-agent'
+    required: false
+  privateKey:
+    description: 'Private key for key-based user authentication'
+    required: false
+  passphrase:
+    description: 'Passphrase for the private key'
+    required: false
+  readyTimeout:
+    description: 'How long (in ms) to wait for the SSH handshake'
+    required: false
+  strictVendor:
+    description: 'Performs a strict server vendor check'
+    required: false
+  debug:
+    description: 'Function to use for debug information'
+    required: false
+  retries:
+    description: 'Number of times to retry connecting'
+    required: false
+  retry_factor:
+    description: 'Time factor used to calculate time between retries'
+    required: false
+  retry_minTimeout:
+    description: 'Minimum timeout between attempts'
+    required: false
+  promiseLimit:
+    description: 'Maximum number of concurrent promises for directory operations'
+    required: false
+  local_dir:
+    description: 'Local directory to upload'
+    required: true
+  remote_base_dir:
+    description: 'Remote base directory to which to upload'
+    required: true
+  remote_bak_path:
+    description: 'Remote backup path (optional)'
+    required: false
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
