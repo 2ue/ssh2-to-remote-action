@@ -2,8 +2,8 @@
   "name": "ssh2-to-remote-action",
   "version": "1.0.0",
   "description": "An action to upload to a remote server via ssh2",
-  "main": "dist/validate-permission.umd.js",
-  "module": "dist/validate-permission.es.js",
+  "main": "dist/ssh2-to-remote-action.umd.js",
+  "module": "dist/ssh2-to-remote-action.es.js",
   "types": "dist/types/main/index.d.ts",
   "scripts": {
     "dev": "rollup -c -w",
@@ -18,7 +18,10 @@
     "remote",
     "github-action"
   ],
-  "author": "2ue",
+  "author": {
+    "name": "2ue",
+    "email": "jie746635835@163.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/2ue/ssh2-to-remote-action/issues"
