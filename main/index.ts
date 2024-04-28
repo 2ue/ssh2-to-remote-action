@@ -1,7 +1,7 @@
 const SSH2SftpClient = require('ssh2-sftp-client');
 const core = require('@actions/core');
 
-async function run() {
+export async function run() {
     const sftp = new SSH2SftpClient();
     const host = core.getInput('host', { required: true });
     const port = core.getInput('port') || 22;
@@ -47,7 +47,7 @@ async function run() {
         }
         console.log('Start upload: ', localDir, '=>', remoteBaseDir);
         await sftp.uploadDir(localDir, `${remoteBaseDir}`, {
-            filter: (localPath, isDir) => {
+            filter: (localPath: string, isDir: boolean) => {
                 core.debug('Upload: ', localPath, isDir);
                 return true;
             }
@@ -55,6 +55,7 @@ async function run() {
 
         console.log(`Successfully uploaded directory ${localDir} to ${remoteBaseDir}`);
     } catch (error) {
+        // @ts-ignore
         core.setFailed(`Error uploading directory: ${error.message}`);
         throw error;
     } finally {

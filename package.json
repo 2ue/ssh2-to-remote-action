@@ -2,9 +2,12 @@
   "name": "ssh2-to-remote-action",
   "version": "1.0.0",
   "description": "An action to upload to a remote server via ssh2",
-  "main": "index.js",
+  "main": "dist/validate-permission.umd.js",
+  "module": "dist/validate-permission.es.js",
+  "types": "dist/types/main/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "rollup -c -w",
+    "build": "rimraf -rf ./dist && rollup --config"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,20 @@
     "url": "https://github.com/2ue/ssh2-to-remote-action/issues"
   },
   "homepage": "https://github.com/2ue/ssh2-to-remote-action#readme",
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-typescript": "^7.24.1",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.14.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  },
   "dependencies": {
     "@actions/core": "^1.10.1",
     "ssh2-sftp-client": "^10.0.3"

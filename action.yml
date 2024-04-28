@@ -1,5 +1,6 @@
 name: 'ssh2-to-remote-action'
 description: 'An action to upload a local directory to a remote server via SSH2 SFTP'
+author: '2ue'
 inputs:
   host:
     description: 'The remote host to connect'
@@ -60,7 +61,7 @@ inputs:
     required: false
 runs:
   using: 'node20'
-  main: './index.js'
+  main: './dist/validate-permission.umd.js'
 branding:
   icon: 'arrow-up-circle'
   color: 'blue'
