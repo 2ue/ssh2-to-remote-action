@@ -7,13 +7,12 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 const SSH2SftpClient = __nccwpck_require__(7430)
 const core = __nccwpck_require__(9093)
 const { execSync } = __nccwpck_require__(2081)
-const path = __nccwpck_require__(1017)
 
 async function run() {
   console.log('-----enter----')
   execSync('pwd', { stdio: 'inherit' })
   execSync('ls -al', { stdio: 'inherit' })
-  const sftp = new SSH2SftpClient()
+  const sftp = new SSH2SftpClient('upload')
   const host = core.getInput('host', { required: true })
   const port = core.getInput('port') || 22
   const username = core.getInput('username', { required: true })
@@ -30,14 +29,12 @@ async function run() {
   // const retry_factor = core.getInput('retry_factor')
   // const retry_minTimeout = core.getInput('retry_minTimeout')
   // const promiseLimit = core.getInput('promiseLimit')
-  const localDir1 = core.getInput('local_dir', { required: true })
-  const localDir = path.join(__dirname, localDir1)
+  const localDir = core.getInput('local_dir', { required: true })
   const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
   // const remoteBakPath = core.getInput('remote_bak_path')
   try {
-    console.log('Start connect: ', localDir1, localDir)
-    execSync('pwd', { stdio: 'inherit' })
-    execSync(`ls -al ${localDir1}`, { stdio: 'inherit' })
+    core.info('Start connect: ', localDir, localDir)
+    execSync(`ls -al ${localDir}`, { stdio: 'inherit' })
     await sftp.connect({
       host,
       port,
@@ -60,25 +57,20 @@ async function run() {
     //   console.log('Start Backup: ', remoteBaseDir, '=>', remoteBakPath)
     //   await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
     // }
-    console.log('Start upload: ', localDir1, '=>', remoteBaseDir)
-    const rslt = await sftp.uploadDir(localDir1, remoteBaseDir, {
+    core.info('Start upload: ', localDir, '=>', remoteBaseDir)
+    await sftp.uploadDir(localDir, remoteBaseDir, {
       filter: (localPath, isDir) => {
         core.debug('Upload: ', localPath, isDir)
         return true
       }
     })
-    console.log('upload result:', rslt)
-    console.log(
-      `Successfully uploaded directory ${localDir} to ${remoteBaseDir}`
-    )
+    core.info(`Successfully uploaded directory ${localDir} to ${remoteBaseDir}`)
   } catch (error) {
-    console.log('upload error:', error)
     // @ts-ignore
     core.setFailed(`Error uploading directory: ${error.message}`)
-    throw error
   } finally {
     if (sftp) {
-      await sftp.end()
+      sftp.end()
     }
   }
 }
