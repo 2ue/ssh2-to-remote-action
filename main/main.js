@@ -36,7 +36,7 @@ async function run() {
       host,
       port,
       username,
-      password,
+      password
       // forceIPv4,
       // forceIPv6,
       // agent,

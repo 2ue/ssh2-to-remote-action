@@ -18,22 +18,22 @@ async function run() {
   const port = core.getInput('port') || 22
   const username = core.getInput('username', { required: true })
   const password = core.getInput('password', { required: true })
-  const forceIPv4 = core.getInput('forceIPv4')
-  const forceIPv6 = core.getInput('forceIPv6')
-  const agent = core.getInput('agent')
-  const privateKey = core.getInput('privateKey')
-  const passphrase = core.getInput('passphrase')
-  const readyTimeout = core.getInput('readyTimeout')
-  const strictVendor = core.getInput('strictVendor')
-  const debug = core.getInput('debug')
-  const retries = core.getInput('retries')
-  const retry_factor = core.getInput('retry_factor')
-  const retry_minTimeout = core.getInput('retry_minTimeout')
-  const promiseLimit = core.getInput('promiseLimit')
+  // const forceIPv4 = core.getInput('forceIPv4')
+  // const forceIPv6 = core.getInput('forceIPv6')
+  // const agent = core.getInput('agent')
+  // const privateKey = core.getInput('privateKey')
+  // const passphrase = core.getInput('passphrase')
+  // const readyTimeout = core.getInput('readyTimeout')
+  // const strictVendor = core.getInput('strictVendor')
+  // const debug = core.getInput('debug')
+  // const retries = core.getInput('retries')
+  // const retry_factor = core.getInput('retry_factor')
+  // const retry_minTimeout = core.getInput('retry_minTimeout')
+  // const promiseLimit = core.getInput('promiseLimit')
   const localDir1 = core.getInput('local_dir', { required: true })
-  const localDir = path(__dirname, localDir1)
+  const localDir = path.join(__dirname, localDir1)
   const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
-  const remoteBakPath = core.getInput('remote_bak_path')
+  // const remoteBakPath = core.getInput('remote_bak_path')
   try {
     console.log('Start connect: ', localDir1, localDir)
     execSync('pwd', { stdio: 'inherit' })
@@ -42,26 +42,26 @@ async function run() {
       host,
       port,
       username,
-      password,
-      forceIPv4,
-      forceIPv6,
-      agent,
-      privateKey,
-      passphrase,
-      readyTimeout,
-      strictVendor,
-      debug,
-      retries,
-      retry_factor,
-      retry_minTimeout,
-      promiseLimit
+      password
+      // forceIPv4,
+      // forceIPv6,
+      // agent,
+      // privateKey,
+      // passphrase,
+      // readyTimeout,
+      // strictVendor,
+      // debug,
+      // retries,
+      // retry_factor,
+      // retry_minTimeout,
+      // promiseLimit
     })
-    if (remoteBakPath) {
-      console.log('Start Backup: ', remoteBaseDir, '=>', remoteBakPath)
-      await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
-    }
+    // if (remoteBakPath) {
+    //   console.log('Start Backup: ', remoteBaseDir, '=>', remoteBakPath)
+    //   await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
+    // }
     console.log('Start upload: ', localDir, '=>', remoteBaseDir)
-    await sftp.uploadDir(localDir, `${remoteBaseDir}`, {
+    await sftp.uploadDir(localDir, remoteBaseDir, {
       filter: (localPath, isDir) => {
         core.debug('Upload: ', localPath, isDir)
         return true
