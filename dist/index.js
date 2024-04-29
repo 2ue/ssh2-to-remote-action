@@ -1,6 +1,85 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 6209:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const SSH2SftpClient = __nccwpck_require__(7430)
+const core = __nccwpck_require__(9093)
+
+async function run() {
+  const sftp = new SSH2SftpClient()
+  const host = core.getInput('host', { required: true })
+  const port = core.getInput('port') || 22
+  const username = core.getInput('username', { required: true })
+  const password = core.getInput('password', { required: true })
+  const forceIPv4 = core.getInput('forceIPv4')
+  const forceIPv6 = core.getInput('forceIPv6')
+  const agent = core.getInput('agent')
+  const privateKey = core.getInput('privateKey')
+  const passphrase = core.getInput('passphrase')
+  const readyTimeout = core.getInput('readyTimeout')
+  const strictVendor = core.getInput('strictVendor')
+  const debug = core.getInput('debug')
+  const retries = core.getInput('retries')
+  const retry_factor = core.getInput('retry_factor')
+  const retry_minTimeout = core.getInput('retry_minTimeout')
+  const promiseLimit = core.getInput('promiseLimit')
+  const localDir = core.getInput('local_dir', { required: true })
+  const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
+  const remoteBakPath = core.getInput('remote_bak_path')
+  try {
+    await sftp.connect({
+      host,
+      port,
+      username,
+      password,
+      forceIPv4,
+      forceIPv6,
+      agent,
+      privateKey,
+      passphrase,
+      readyTimeout,
+      strictVendor,
+      debug,
+      retries,
+      retry_factor,
+      retry_minTimeout,
+      promiseLimit
+    })
+    if (remoteBakPath) {
+      console.log('Start Backup: ', remoteBaseDir, '=>', remoteBakPath)
+      await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
+    }
+    console.log('Start upload: ', localDir, '=>', remoteBaseDir)
+    await sftp.uploadDir(localDir, `${remoteBaseDir}`, {
+      filter: (localPath, isDir) => {
+        core.debug('Upload: ', localPath, isDir)
+        return true
+      }
+    })
+
+    console.log(
+      `Successfully uploaded directory ${localDir} to ${remoteBaseDir}`
+    )
+  } catch (error) {
+    // @ts-ignore
+    core.setFailed(`Error uploading directory: ${error.message}`)
+    throw error
+  } finally {
+    if (sftp) {
+      await sftp.end()
+    }
+  }
+}
+
+module.exports = {
+  run
+}
+
+
+/***/ }),
+
 /***/ 1513:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -55018,91 +55097,6 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 5290:
-/***/ ((module, __webpack_exports__, __nccwpck_require__) => {
-
-"use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "run": () => (/* binding */ run)
-/* harmony export */ });
-/* module decorator */ module = __nccwpck_require__.hmd(module);
-const SSH2SftpClient = __nccwpck_require__(7430)
-const core = __nccwpck_require__(9093)
-
-async function run() {
-  const sftp = new SSH2SftpClient()
-  const host = core.getInput('host', { required: true })
-  const port = core.getInput('port') || 22
-  const username = core.getInput('username', { required: true })
-  const password = core.getInput('password', { required: true })
-  const forceIPv4 = core.getInput('forceIPv4')
-  const forceIPv6 = core.getInput('forceIPv6')
-  const agent = core.getInput('agent')
-  const privateKey = core.getInput('privateKey')
-  const passphrase = core.getInput('passphrase')
-  const readyTimeout = core.getInput('readyTimeout')
-  const strictVendor = core.getInput('strictVendor')
-  const debug = core.getInput('debug')
-  const retries = core.getInput('retries')
-  const retry_factor = core.getInput('retry_factor')
-  const retry_minTimeout = core.getInput('retry_minTimeout')
-  const promiseLimit = core.getInput('promiseLimit')
-  const localDir = core.getInput('local_dir', { required: true })
-  const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
-  const remoteBakPath = core.getInput('remote_bak_path')
-  try {
-    await sftp.connect({
-      host,
-      port,
-      username,
-      password,
-      forceIPv4,
-      forceIPv6,
-      agent,
-      privateKey,
-      passphrase,
-      readyTimeout,
-      strictVendor,
-      debug,
-      retries,
-      retry_factor,
-      retry_minTimeout,
-      promiseLimit
-    })
-    if (remoteBakPath) {
-      console.log('Start Backup: ', remoteBaseDir, '=>', remoteBakPath)
-      await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
-    }
-    console.log('Start upload: ', localDir, '=>', remoteBaseDir)
-    await sftp.uploadDir(localDir, `${remoteBaseDir}`, {
-      filter: (localPath, isDir) => {
-        core.debug('Upload: ', localPath, isDir)
-        return true
-      }
-    })
-
-    console.log(
-      `Successfully uploaded directory ${localDir} to ${remoteBaseDir}`
-    )
-  } catch (error) {
-    // @ts-ignore
-    core.setFailed(`Error uploading directory: ${error.message}`)
-    throw error
-  } finally {
-    if (sftp) {
-      await sftp.end()
-    }
-  }
-}
-
-module.exports = {
-  run
-}
-
-
-/***/ }),
-
 /***/ 9578:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -57020,8 +57014,8 @@ module.exports = {"i8":"1.15.0"};
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			loaded: false,
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
@@ -57034,57 +57028,11 @@ module.exports = {"i8":"1.15.0"};
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
 /******/ 	
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
@@ -57096,7 +57044,7 @@ var __webpack_exports__ = {};
 /**
  * The entrypoint for the action.
  */
-const { run } = __nccwpck_require__(5290)
+const { run } = __nccwpck_require__(6209)
 
 run()
 
