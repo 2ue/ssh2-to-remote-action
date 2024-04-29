@@ -2,9 +2,9 @@
   "name": "ssh2-to-remote-action",
   "version": "1.0.0",
   "description": "An action to upload to a remote server via ssh2",
-  "main": "dist/ssh2-to-remote-action.umd.js",
-  "module": "dist/ssh2-to-remote-action.es.js",
-  "types": "dist/types/main/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rimraf -rf ./dist && rollup --config"
