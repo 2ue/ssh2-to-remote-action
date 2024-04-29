@@ -1,7 +1,11 @@
 const SSH2SftpClient = require('ssh2-sftp-client')
 const core = require('@actions/core')
+const { execSync } = require('child_process')
 
 async function run() {
+  console.log('-----enter----')
+  execSync('pwd')
+  execSync('ls -al')
   const sftp = new SSH2SftpClient()
   const host = core.getInput('host', { required: true })
   const port = core.getInput('port') || 22
@@ -23,6 +27,9 @@ async function run() {
   const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
   const remoteBakPath = core.getInput('remote_bak_path')
   try {
+    console.log('Start connect: ')
+    execSync('pwd')
+    execSync('ls -al')
     await sftp.connect({
       host,
       port,

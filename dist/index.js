@@ -6,8 +6,12 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 const SSH2SftpClient = __nccwpck_require__(7430)
 const core = __nccwpck_require__(9093)
+const { execSync } = __nccwpck_require__(2081)
 
 async function run() {
+  console.log('-----enter----')
+  execSync('pwd')
+  execSync('ls -al')
   const sftp = new SSH2SftpClient()
   const host = core.getInput('host', { required: true })
   const port = core.getInput('port') || 22
@@ -29,6 +33,9 @@ async function run() {
   const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
   const remoteBakPath = core.getInput('remote_bak_path')
   try {
+    console.log('Start connect: ')
+    execSync('pwd')
+    execSync('ls -al')
     await sftp.connect({
       host,
       port,
