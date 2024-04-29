@@ -2,8 +2,6 @@
   "name": "ssh2-to-remote-action",
   "version": "1.0.0",
   "description": "An action to upload to a remote server via ssh2",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/2ue/ssh2-to-remote-action.git"
