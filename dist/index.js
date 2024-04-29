@@ -7,11 +7,12 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 const SSH2SftpClient = __nccwpck_require__(7430)
 const core = __nccwpck_require__(9093)
 const { execSync } = __nccwpck_require__(2081)
+const path = __nccwpck_require__(1017)
 
 async function run() {
   console.log('-----enter----')
-  execSync('pwd')
-  execSync('ls -al')
+  execSync('pwd', { stdio: 'inherit' })
+  execSync('ls -al', { stdio: 'inherit' })
   const sftp = new SSH2SftpClient()
   const host = core.getInput('host', { required: true })
   const port = core.getInput('port') || 22
@@ -29,13 +30,14 @@ async function run() {
   const retry_factor = core.getInput('retry_factor')
   const retry_minTimeout = core.getInput('retry_minTimeout')
   const promiseLimit = core.getInput('promiseLimit')
-  const localDir = core.getInput('local_dir', { required: true })
+  const localDir1 = core.getInput('local_dir', { required: true })
+  const localDir = path(__dirname, localDir1)
   const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
   const remoteBakPath = core.getInput('remote_bak_path')
   try {
-    console.log('Start connect: ')
-    execSync('pwd')
-    execSync('ls -al')
+    console.log('Start connect: ', localDir1, localDir)
+    execSync('pwd', { stdio: 'inherit' })
+    execSync('ls -al', { stdio: 'inherit' })
     await sftp.connect({
       host,
       port,
