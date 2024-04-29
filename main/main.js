@@ -31,7 +31,7 @@ async function run() {
   try {
     console.log('Start connect: ', localDir1, localDir)
     execSync('pwd', { stdio: 'inherit' })
-    execSync('ls -al localDir1', { stdio: 'inherit' })
+    execSync(`ls -al ${localDir1}`, { stdio: 'inherit' })
     await sftp.connect({
       host,
       port,
