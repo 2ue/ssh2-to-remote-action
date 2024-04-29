@@ -37,7 +37,7 @@ async function run() {
   try {
     console.log('Start connect: ', localDir1, localDir)
     execSync('pwd', { stdio: 'inherit' })
-    execSync('ls -al', { stdio: 'inherit' })
+    execSync('ls -al localDir1', { stdio: 'inherit' })
     await sftp.connect({
       host,
       port,
@@ -60,8 +60,8 @@ async function run() {
     //   console.log('Start Backup: ', remoteBaseDir, '=>', remoteBakPath)
     //   await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
     // }
-    console.log('Start upload: ', localDir, '=>', remoteBaseDir)
-    await sftp.uploadDir(localDir, remoteBaseDir, {
+    console.log('Start upload: ', localDir1, '=>', remoteBaseDir)
+    await sftp.uploadDir(localDir1, remoteBaseDir, {
       filter: (localPath, isDir) => {
         core.debug('Upload: ', localPath, isDir)
         return true
