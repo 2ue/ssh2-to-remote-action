@@ -1,7 +1,7 @@
 const SSH2SftpClient = require('ssh2-sftp-client')
 const core = require('@actions/core')
 
-export async function run() {
+async function run() {
   const sftp = new SSH2SftpClient()
   const host = core.getInput('host', { required: true })
   const port = core.getInput('port') || 22
