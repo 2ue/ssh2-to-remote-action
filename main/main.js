@@ -3,7 +3,7 @@ const core = require('@actions/core')
 const { execSync } = require('child_process')
 
 async function run() {
-  console.log('-----enter----')
+  core.info('-----enter----')
   execSync('pwd', { stdio: 'inherit' })
   execSync('ls -al', { stdio: 'inherit' })
   const sftp = new SSH2SftpClient('upload')
@@ -27,7 +27,6 @@ async function run() {
   const remoteBaseDir = core.getInput('remote_base_dir', { required: true })
   // const remoteBakPath = core.getInput('remote_bak_path')
   try {
-    core.info('Start connect: ', localDir, localDir)
     execSync(`ls -al ${localDir}`, { stdio: 'inherit' })
     await sftp.connect({
       host,
@@ -51,10 +50,10 @@ async function run() {
     //   console.log('Start Backup: ', remoteBaseDir, '=>', remoteBakPath)
     //   await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
     // }
-    core.info('Start upload: ', localDir, '=>', remoteBaseDir)
+    core.info(`Start upload: ${localDir} => ${remoteBaseDir}`)
     await sftp.uploadDir(localDir, remoteBaseDir, {
       filter: (localPath, isDir) => {
-        core.debug('Upload: ', localPath, isDir)
+        core.info(`Upload: ${localPath}, ${isDir}`)
         return true
       }
     })
