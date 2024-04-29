@@ -55,17 +55,18 @@ async function run() {
     //   await sftp.rcopy(remoteBaseDir, `${remoteBakPath}/backup`)
     // }
     console.log('Start upload: ', localDir1, '=>', remoteBaseDir)
-    await sftp.uploadDir(localDir1, remoteBaseDir, {
+    const rslt = await sftp.uploadDir(localDir1, remoteBaseDir, {
       filter: (localPath, isDir) => {
         core.debug('Upload: ', localPath, isDir)
         return true
       }
     })
-
+    console.log('upload result:', rslt)
     console.log(
       `Successfully uploaded directory ${localDir} to ${remoteBaseDir}`
     )
   } catch (error) {
+    console.log('upload error:', error)
     // @ts-ignore
     core.setFailed(`Error uploading directory: ${error.message}`)
     throw error
