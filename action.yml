@@ -1,5 +1,6 @@
 name: 'ssh2-to-remote-action'
-description: 'An action to upload a local directory to a remote server via SSH2 SFTP'
+description:
+  'An action to upload a local directory to a remote server via SSH2 SFTP'
 author: '2ue'
 inputs:
   host:
@@ -48,7 +49,8 @@ inputs:
     description: 'Minimum timeout between attempts'
     required: false
   promiseLimit:
-    description: 'Maximum number of concurrent promises for directory operations'
+    description:
+      'Maximum number of concurrent promises for directory operations'
     required: false
   local_dir:
     description: 'Local directory to upload'
