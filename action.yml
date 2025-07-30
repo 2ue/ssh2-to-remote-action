@@ -8,19 +8,22 @@ inputs:
     required: true
   port:
     description: 'The port to use for the connection'
-    required: true
+    required: false
+    default: '22'
   username:
     description: 'The username for authentication'
     required: true
   password:
     description: 'The password for password-based user authentication'
-    required: true
+    required: false
   forceIPv4:
     description: 'Force IPv4 connections'
     required: false
+    default: 'false'
   forceIPv6:
     description: 'Force IPv6 connections'
     required: false
+    default: 'false'
   agent:
     description: 'Path to ssh-agent'
     required: false
@@ -33,25 +36,32 @@ inputs:
   readyTimeout:
     description: 'How long (in ms) to wait for the SSH handshake'
     required: false
+    default: '20000'
   strictVendor:
     description: 'Performs a strict server vendor check'
     required: false
+    default: 'false'
   debug:
     description: 'Function to use for debug information'
     required: false
+    default: 'false'
   retries:
     description: 'Number of times to retry connecting'
     required: false
+    default: '1'
   retry_factor:
     description: 'Time factor used to calculate time between retries'
     required: false
+    default: '2'
   retry_minTimeout:
     description: 'Minimum timeout between attempts'
     required: false
+    default: '1000'
   promiseLimit:
     description:
       'Maximum number of concurrent promises for directory operations'
     required: false
+    default: '10'
   local_dir:
     description: 'Local directory to upload'
     required: true
@@ -61,6 +71,13 @@ inputs:
   remote_bak_path:
     description: 'Remote backup path (optional)'
     required: false
+outputs:
+  uploaded_files:
+    description: 'Number of files uploaded'
+  success:
+    description: 'Whether the upload was successful'
+  error:
+    description: 'Error message if upload failed'
 runs:
   using: 'node20'
   main: 'dist/index.js'
